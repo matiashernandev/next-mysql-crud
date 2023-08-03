@@ -1,4 +1,6 @@
 import axios from "axios"
+import { Button } from "@material-tailwind/react"
+import { Input } from "@material-tailwind/react"
 
 export function ProductForm() {
   const handleSubmit = async (event) => {
@@ -7,31 +9,40 @@ export function ProductForm() {
     const formData = new FormData(event.target)
 
     const data = Object.fromEntries(formData)
+    console.log(data)
 
-    const res = await axios.post("http://localhost:3000/api/products", {
+    const res = await axios.post("/api/products", {
       name: data.name,
       price: data.price,
       description: data.description,
     })
 
-    //console.log(res)
+    console.log(res)
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <input type="text" id="name" name="name" />
+    <div className="container flex flex-col justify-center items-center p-10">
+      <h1 className="text-2xl">Product Form </h1>
+      <form
+        className="flex w-72 flex-col gap-5 m-10 text-white"
+        onSubmit={handleSubmit}
+      >
+        <Input name="name" className="text-white" color="blue" label="Name" />
+        <Input
+          name="price"
+          className=" text-white"
+          type="number"
+          color="blue"
+          label="Price"
+        />
+        <Input
+          name="description"
+          className="text-white"
+          color="blue"
+          label="Description"
+        />
 
-        <label>
-          Price
-          <input type="text" name="price" />
-        </label>
-
-        <label htmlFor="description">Description</label>
-        <input type="text" name="description" />
-
-        <button>Save Product</button>
+        <Button type="submit">Enviar</Button>
       </form>
     </div>
   )
