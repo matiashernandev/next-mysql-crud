@@ -1,4 +1,10 @@
+import { ProductForm } from "@/components/ProductForm"
+
 function HomePage() {
-  return <div>HomePage</div>
+  return (
+    <div>
+      <ProductForm />
+    </div>
+  )
 }
 export default HomePage
