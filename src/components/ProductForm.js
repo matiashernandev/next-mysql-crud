@@ -1,8 +1,11 @@
 import axios from "axios"
 import { Button } from "@material-tailwind/react"
 import { Input } from "@material-tailwind/react"
+import { useRouter } from "next/router"
 
 export function ProductForm() {
+  const router = useRouter()
+
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -18,6 +21,8 @@ export function ProductForm() {
     })
 
     console.log(res)
+
+    router.push("/")
   }
 
   return (

@@ -1,16 +1,22 @@
+import Layout from "@/components/Layout"
 import { ProductForm } from "@/components/ProductForm"
-import Product from "./products/product"
 import axios from "axios"
+import Product from "./products/product"
+import Link from "next/link"
 
 function HomePage({ products }) {
   return (
-    <div>
-      <ProductForm />
-
-      <pre>{JSON.stringify(products, null, 2)}</pre>
-
-      {/*   <Product /> */}
-    </div>
+    <Layout>
+      {products.map((product) => (
+        <Link href={`/products/${product.id}`} key={product.id}>
+          <div className="border border-gray-200 shadow-md p-6">
+            <h1>{product.name}</h1>
+            <p>{product.description}</p>
+            <p>{product.price}</p>
+          </div>
+        </Link>
+      ))}
+    </Layout>
   )
 }
 
