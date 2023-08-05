@@ -2,6 +2,7 @@ import axios from "axios"
 import { Button } from "@material-tailwind/react"
 import { Input } from "@material-tailwind/react"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 export function ProductForm() {
   const router = useRouter()
@@ -14,16 +15,31 @@ export function ProductForm() {
     const data = Object.fromEntries(formData)
     console.log(data)
 
-    const res = await axios.post("/api/products", {
-      name: data.name,
-      price: data.price,
-      description: data.description,
-    })
-
-    console.log(res)
+    if (router.query.id) {
+      const res = await axios.put(`/api/products/${router.query.id}`, data)
+      console.log(res)
+    } else {
+      const res = await axios.post("/api/products", {
+        name: data.name,
+        price: data.price,
+        description: data.description,
+      })
+      console.log(res)
+    }
 
     router.push("/")
   }
+
+  useEffect(() => {
+    const getProduct = async () => {
+      const { data } = await axios.get(`/api/products/${router.query.id}`)
+      console.log(data)
+    }
+
+    if (router.query.id) {
+      getProduct(router.query.id)
+    }
+  }, [])
 
   return (
     <div className="container flex flex-col justify-center items-center p-10">
@@ -45,6 +61,7 @@ export function ProductForm() {
           className="text-white"
           color="blue"
           label="Description"
+          value={"ToDo"}
         />
 
         <Button type="submit">Enviar</Button>

@@ -3,7 +3,7 @@ import { Button } from "@material-tailwind/react"
 import axios from "axios"
 import { useRouter } from "next/router"
 
-export default function ProductView({ product }) {
+export default function ProductPage({ product }) {
   const { push } = useRouter()
 
   const handleDelete = async () => {
@@ -11,6 +11,9 @@ export default function ProductView({ product }) {
     push("/")
   }
 
+  const handleEdit = () => {
+    push("/products/edit/" + product.id)
+  }
   return (
     <Layout>
       {product ? (
@@ -20,8 +23,11 @@ export default function ProductView({ product }) {
           <p>{product.description}</p>
           <p>{product.price}</p>
 
+          <Button onClick={handleEdit} color="green">
+            Edit
+          </Button>
           <Button onClick={handleDelete} color="red">
-            gfdgd
+            Delete
           </Button>
         </div>
       ) : (
