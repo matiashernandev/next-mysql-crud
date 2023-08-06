@@ -2,10 +2,12 @@ import axios from "axios"
 import { Button } from "@material-tailwind/react"
 import { Input } from "@material-tailwind/react"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export function ProductForm() {
   const router = useRouter()
+
+  const [product, setProduct] = useState("")
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -13,18 +15,18 @@ export function ProductForm() {
     const formData = new FormData(event.target)
 
     const data = Object.fromEntries(formData)
-    console.log(data)
+    //console.log(data)
 
     if (router.query.id) {
       const res = await axios.put(`/api/products/${router.query.id}`, data)
-      console.log(res)
+      //console.log(res)
     } else {
       const res = await axios.post("/api/products", {
         name: data.name,
         price: data.price,
         description: data.description,
       })
-      console.log(res)
+      //console.log(res)
     }
 
     router.push("/")
@@ -34,12 +36,13 @@ export function ProductForm() {
     const getProduct = async () => {
       const { data } = await axios.get(`/api/products/${router.query.id}`)
       console.log(data)
+      setProduct(data)
     }
 
     if (router.query.id) {
       getProduct(router.query.id)
     }
-  }, [])
+  }, [router.query.id])
 
   return (
     <div className="container flex flex-col justify-center items-center p-10">
@@ -61,7 +64,10 @@ export function ProductForm() {
           className="text-white"
           color="blue"
           label="Description"
-          value={"ToDo"}
+          value={product.description}
+          onChange={(e) =>
+            setProduct({ ...product, description: e.target.value })
+          }
         />
 
         <Button type="submit">Enviar</Button>

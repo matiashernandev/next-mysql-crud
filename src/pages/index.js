@@ -1,21 +1,15 @@
+import { CardWithLink } from "@/components/CardWithLink"
 import Layout from "@/components/Layout"
-import { ProductForm } from "@/components/ProductForm"
 import axios from "axios"
-import Product from "./products/product"
-import Link from "next/link"
 
 function HomePage({ products }) {
   return (
     <Layout>
-      {products.map((product) => (
-        <Link href={`/products/${product.id}`} key={product.id}>
-          <div className="border border-gray-200 shadow-md p-6">
-            <h1>{product.name}</h1>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
-          </div>
-        </Link>
-      ))}
+      <div className="flex gap-5 flex-wrap justify-center">
+        {products.map((product) => (
+          <CardWithLink key={product.id} product={product} />
+        ))}
+      </div>
     </Layout>
   )
 }
